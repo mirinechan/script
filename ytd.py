@@ -27,7 +27,14 @@ def cleanup_file(file_path: str):
 @app.post("/info")
 async def get_info(url: str = Form(...)):
     try:
-        ydl_opts = {"quiet": True}
+        ydl_opts = {
+            "quiet": True,
+            "headers": {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+                "Accept-Language": "en-US,en;q=0.5",
+                "Accept": "text/html",
+            },
+        }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
             return {
